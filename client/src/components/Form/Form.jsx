@@ -16,9 +16,8 @@ const Form = () => {
     const classes = useStyles();
     const dispatch = useDispatch()
     const handleSubmit = (e)=> {
-        e.preventDefault()
-        // console.log({postData})
-        dispatch(createPosts(postData))
+        e.preventDefault();
+        dispatch(createPosts(postData));
     }
     const clear = ()=>{
 
