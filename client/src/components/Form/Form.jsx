@@ -58,10 +58,10 @@ const Form = () => {
                 <TextField 
                     name='tags' 
                     variant='outlined' 
-                    label='Tags' 
+                    label='Tags (coma separated)' 
                     fullWidth
                     value={postData.tags}
-                    onChange={(e)=>setPostData({...postData, tags: e.target.value})}
+                    onChange={(e)=>setPostData({...postData, tags: e.target.value.split(',')})}
                 />
                 <div className={classes.fileInput}>
                     <FileBase 
