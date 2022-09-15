@@ -1,13 +1,15 @@
 import {useState} from 'react';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { GoogleLogin, googleLogout  } from '@react-oauth/google';
 import useStyles from './styles'
 import Input from './Input';
 
 const Auth = () => {
-    const isSignup = false;
+    const [isSignup, setIsSignup] = useState(false);
     const classes = useStyles();
-    const [showPassword, setShowPassword] = useState(false)
+
+    const [showPassword, setShowPassword] = useState(false);
     
     const handleSubmit = ()=>{
 
@@ -17,7 +19,12 @@ const Auth = () => {
 
     }
 
-    const handleShowPassword = ()=> setShowPassword((prevShowPassword)=> !prevShowPassword)
+    const handleShowPassword = ()=> setShowPassword((prevShowPassword)=> !prevShowPassword);
+
+    const switchMode = ()=>{
+      setIsSignup(!isSignup);
+      handleShowPassword(false)
+    }
   return (
     <Container>
       <Paper className={classes.paper} elevation={3}>
@@ -43,6 +50,14 @@ const Auth = () => {
             <Button type='submit' variant='contained' color='primary' className={classes.submit} fullWidth>
               {isSignup ? 'Sign Up' : 'Sign In'}
             </Button>
+            <Grid container justifyContent='flex-end'>
+              <Grid item>
+                <Button onClick={switchMode}>
+                  {isSignup ? 'Already have an account? Sign In' : 'Do not have an account? Sign Up'}
+                </Button>
+                {/* {!isSignup && <GoogleLogin>Signin With Google</GoogleLogin>} */}
+              </Grid>
+            </Grid>
           </Grid>
         </form>
       </Paper>
