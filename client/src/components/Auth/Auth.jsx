@@ -1,9 +1,12 @@
 import {useState} from 'react';
+import { useDispatch } from 'react-redux';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { GoogleLogin, googleLogout  } from '@react-oauth/google';
+import { createOrGetUser } from '../../utils';
 import useStyles from './styles'
 import Input from './Input';
+import { AUTH, LOGOUT } from '../../constants/actionTypes'
 
 const Auth = () => {
     const [isSignup, setIsSignup] = useState(false);
@@ -25,6 +28,8 @@ const Auth = () => {
       setIsSignup(!isSignup);
       handleShowPassword(false)
     }
+
+    const dispatch = useDispatch()
   return (
     <Container>
       <Paper className={classes.paper} elevation={3}>
@@ -44,6 +49,21 @@ const Auth = () => {
                 </> 
               )
             }
+            {!isSignup && <GoogleLogin 
+            onSuccess={ async (response)=> {
+              const result = await createOrGetUser(response)
+              try {
+                dispatch({type: AUTH, data: { result } });
+              } catch (error) {
+                console.log(error)
+              }
+               
+              }} 
+            onError={()=>{
+              console.log('Login Failed')
+            }} 
+            />
+            }
             <Input name='email' label="Email Address" handleChange={handleChange} type='email' />
             <Input name='password' label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
             {isSignup && <Input name='confirmPassword' label="Repeat Password" handleChange={handleChange} type="password" /> }
@@ -55,7 +75,7 @@ const Auth = () => {
                 <Button onClick={switchMode}>
                   {isSignup ? 'Already have an account? Sign In' : 'Do not have an account? Sign Up'}
                 </Button>
-                {/* {!isSignup && <GoogleLogin>Signin With Google</GoogleLogin>} */}
+                
               </Grid>
             </Grid>
           </Grid>
