@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv'
 import mongoose from 'mongoose';
 
 import postRoutes from './routes/posts.js'
+import userRoutes from './routes/users.js'
 
 dotenv.config()
 
@@ -24,6 +25,7 @@ app.use(cors(
 ));
 
 app.use('/posts', postRoutes)
+app.use('/user', userRoutes)
 
 mongoose.connect(CONNECT_DB_URL)
 .then(()=> app.listen(PROT, console.log(`listening on port ${PROT}`)))
