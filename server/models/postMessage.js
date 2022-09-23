@@ -6,10 +6,14 @@ const posrtScema = mongoose.Schema({
     creator: String,
     tags: [String],
     selectedFile: String,
-    likeCount: {
-        type: Number,
-        default: 0
-    },
+    likes: {
+        type: [String],
+        default: []
+    }
+    // likeCount: {
+    //     type: Number,
+    //     default: 0
+    // },
     // createAt: {
     //     type: String,
     //     default: new Date()
