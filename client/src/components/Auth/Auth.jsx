@@ -69,9 +69,10 @@ const Auth = () => {
 
             {!isSignup && <GoogleLogin 
             onSuccess={ async (response)=> {
-              const result = await createOrGetUser(response)
+              const result = await createOrGetUser(response);
+              const token = await response.credential
               try {
-                dispatch({type: AUTH, data: { result } });
+                dispatch({type: AUTH, data: { result, token } });
                 history('/');
               } catch (error) {
                 console.log(error)

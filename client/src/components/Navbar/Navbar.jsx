@@ -1,8 +1,9 @@
 import { useEffect, useState} from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@mui/material';
 import { googleLogout } from '@react-oauth/google';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import decode from 'jwt-decode'
 import memories from '../../images/memories.png';
 import useStyles from './styles';
 import { LOGOUT } from '../../constants/actionTypes';
@@ -21,8 +22,17 @@ const Navbar = () => {
     }
 
     useEffect(()=>{
+        const token = user?.token;
+
+        if (token) {
+            const decodedToken = decode(token);
+      
+            if (decodedToken.exp * 1000 < new Date().getTime()) logOut();
+          }
+
         setUser(JSON.parse(localStorage.getItem('profile')))
     }, [location])
+
     
   return (
     <AppBar className={classes.appBar} position='static' color='inherit'>
