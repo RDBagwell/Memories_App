@@ -4,17 +4,15 @@ import cors from 'cors';
 import * as dotenv from 'dotenv'
 import mongoose from 'mongoose';
 
-import postRoutes from './routes/posts.js'
-import userRoutes from './routes/users.js'
+import postRoutes from './routes/posts.js';
+import userRoutes from './routes/users.js';
 
-dotenv.config()
+dotenv.config();
 
-const PROT = process.env.PROT || 5000
-const CONNECT_DB_URL = process.env.CONNECT_DB_URL
+const PROT = process.env.PROT || 5000;
+const CONNECT_DB_URL = process.env.CONNECT_DB_URL;
 
-const app = express()
-
-
+const app = express();
 
 app.use(bodyParser.json({limit: '30mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
@@ -24,12 +22,12 @@ app.use(cors(
     }
 ));
 
-app.use('/posts', postRoutes)
-app.use('/user', userRoutes)
+app.use('/posts', postRoutes);
+app.use('/user', userRoutes);
 
 mongoose.connect(CONNECT_DB_URL)
 .then(()=> app.listen(PROT, console.log(`listening on port ${PROT}`)))
-.catch((error)=> console.error(error.message))
+.catch((error)=> console.error(error.message));
 
 
 
